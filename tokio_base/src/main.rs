@@ -46,6 +46,7 @@ struct Opts{
 #[derive(Debug, Clone, PartialEq, PartialOrd)]
 enum Event {
     Int(i64),
+    Float(f64),
     Str(String),
     StaticStr(&'static str),
 }
@@ -63,6 +64,7 @@ impl Event {
                 Event::StaticStr(s)
             },
             3 =>  Self::Str("A".repeat(seed as usize)),
+            4 => Self::Float(seed as f64 / 100.0),
             _ => panic!("无效的事件类型"),
         }
     }
@@ -74,6 +76,9 @@ impl Event {
             Event::Int(v) => (-1).eq(v),
             Event::Str(v) => v.eq("exit"),
             Event::StaticStr(v) => "exit".eq(*v),
+            Event::Float(v) => {
+                v + 1.0 <= 1e-6
+            }
         }
     }
 }
